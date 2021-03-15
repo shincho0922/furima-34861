@@ -6,6 +6,9 @@ RSpec.describe User, type: :model do
   end
 
   describe 'ユーザー新規登録' do
+    it '必要な情報が記載されていれば新規登録できる' do
+      expect(@user).to be_valid
+    end
     it 'ニックネームが必須であること' do
       @user.nickname = ''
       @user.valid?
@@ -17,9 +20,10 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include "Email can't be blank"
     end
     it 'メールアドレスが一意性であること' do
-      @user.email = 'kazu@gmail.com'
-      @user.valid?
-      expect(@user.errors.full_messages).to include "Email has already been taken"
+      @user.save
+      another_user = FactoryBot.build(:user, email: @user.email)
+      another_user.valid?
+      expect(another_user.errors.full_messages).to include "Email has already been taken"
     end
     it 'メールアドレスは、@を含む必要があること' do
       @user.email = 'kazugmail.com'
@@ -32,7 +36,10 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include "Password can't be blank"
     end
     it 'パスワードは、6文字以上での入力が必須であること' do
-      expect(@user).to be_valid
+      @user.password = "abc45"
+      @user.password_confirmation = "abc45"
+      @user.valid?
+      expect(@user.errors.full_messages).to include "Password is too short (minimum is 6 characters)"
     end
     it 'パスワードは、数字だけでは登録できない' do
       @user.password = '123456'
@@ -43,6 +50,12 @@ RSpec.describe User, type: :model do
     it 'パスワードは、英字だけでは登録できない' do
       @user.password = 'abcdef'
       @user.password_confirmation = 'abcdef'
+      @user.valid?
+      expect(@user.errors.full_messages).to include "Password には英字と数字の両方を含めて設定してください"
+    end
+    it 'パスワードは、全角文字では登録できない' do
+      @user.password = 'ABC１２３'
+      @user.password_confirmation = 'ABC１２３'
       @user.valid?
       expect(@user.errors.full_messages).to include "Password には英字と数字の両方を含めて設定してください"
     end
