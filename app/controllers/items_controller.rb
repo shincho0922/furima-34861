@@ -18,16 +18,16 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find{params[:id]}
+    choose_item
   end
 
   def edit
-    @item = Item.find{params[:id]}
+    choose_item
     check_user
   end
 
   def update
-    @item = Item.find{params[:id]}
+    choose_item
     check_user
     if @item.update(item_params)
       redirect_to action: :index
@@ -48,5 +48,9 @@ class ItemsController < ApplicationController
     if @item.user.id != current_user.id
       redirect_to action: :index
     end
+  end
+
+  def choose_item
+    @item = Item.find{params[:id]}
   end
 end
