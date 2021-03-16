@@ -1,5 +1,8 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :show, :update, :create]
+  before_action :choose_item, only: [:show, :edit, :update]
+  before_action :check_user, only: [:update, :edit]
+
   def index
     @items = Item.order("created_at DESC")
   end
@@ -18,17 +21,12 @@ class ItemsController < ApplicationController
   end
 
   def show
-    choose_item
   end
 
   def edit
-    choose_item
-    check_user
   end
 
   def update
-    choose_item
-    check_user
     if @item.update(item_params)
       redirect_to action: :index
     else
