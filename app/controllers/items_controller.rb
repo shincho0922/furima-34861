@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :show, :update, :create]
-  before_action :choose_item, only: [:edit, :update]
+  before_action :choose_item, only: [:show, :edit, :update]
   before_action :check_user, only: [:update, :edit]
 
   def index
@@ -21,7 +21,6 @@ class ItemsController < ApplicationController
   end
 
   def show
-    choose_item
   end
 
   def edit
@@ -32,16 +31,6 @@ class ItemsController < ApplicationController
       redirect_to action: :index
     else
       render :edit
-    end
-  end
-
-  def destroy
-    choose_item
-    if @item.user.id == current_user.id
-      @item.destroy
-      redirect_to action: :index
-    else
-      render :show
     end
   end
 
@@ -60,6 +49,6 @@ class ItemsController < ApplicationController
   end
 
   def choose_item
-    @item = Item.find(params[:id])
+    @item = Item.find{params[:id]}
   end
 end
