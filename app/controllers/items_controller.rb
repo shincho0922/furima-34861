@@ -52,6 +52,6 @@ class ItemsController < ApplicationController
   end
 
   def choose_item
-    @item = Item.find{params[:id]}
+    @item = Item.find(params[:id])
   end
 end
