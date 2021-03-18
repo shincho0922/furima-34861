@@ -5,6 +5,7 @@ class OrdersController < ApplicationController
     @buy = Buy.new(buy_params)  
     @item = Item.find(params[:item_id])
     check_user
+    check_item
   end
 
   def create
@@ -16,6 +17,12 @@ class OrdersController < ApplicationController
 
   def check_user
     if @item.user.id == current_user.id
+      redirect_to root_path
+    end
+  end
+
+  def check_item
+    if @item.purchase.present?
       redirect_to root_path
     end
   end

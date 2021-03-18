@@ -24,6 +24,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    check_item
   end
 
   def update
@@ -53,5 +54,11 @@ class ItemsController < ApplicationController
 
   def choose_item
     @item = Item.find(params[:id])
+  end
+
+  def check_item
+    if @item.purchase.present?
+      redirect_to root_path
+    end
   end
 end
