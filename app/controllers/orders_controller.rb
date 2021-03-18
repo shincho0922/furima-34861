@@ -1,11 +1,10 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :choose_item
+  before_action :checker
 
   def index
     @buy = Buy.new(buy_params)  
-    @item = Item.find(params[:item_id])
-    check_user
-    check_item
   end
 
   def create
@@ -15,14 +14,14 @@ class OrdersController < ApplicationController
 
   private
 
-  def check_user
-    if @item.user.id == current_user.id
-      redirect_to root_path
-    end
+  def choose_item
+    @item = Item.find(params[:item_id])
   end
 
-  def check_item
-    if @item.purchase.present?
+  def checker
+    if @item.user.id == current_user.id
+      redirect_to root_path
+    elsif @item.purchase.present?
       redirect_to root_path
     end
   end
@@ -33,7 +32,6 @@ class OrdersController < ApplicationController
 
   def buy_check
     if @buy.valid?
-      @item = Item.find(params[:item_id])
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  # 自身のPAY.JPテスト秘密鍵を記述しましょう
       Payjp::Charge.create(
         amount: @item.price,  # 商品の値段
