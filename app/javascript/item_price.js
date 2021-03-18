@@ -1,6 +1,6 @@
 function post (){
   const priceInput = document.getElementById("item-price");
-  priceInput.addEventListener("input",() => {
+  priceInput.addEventListener('input',(e) => {
     const inputValue = priceInput.value;
     const addTaxDom = document.getElementById("add-tax-price");
     const profit = document.getElementById("profit");
