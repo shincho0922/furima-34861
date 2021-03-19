@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
 
   def buy_check
     if @buy.valid?
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  # 自身のPAY.JPテスト秘密鍵を記述しましょう
+      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       Payjp::Charge.create(
         amount: @item.price,  # 商品の値段
         card: buy_params[:token],    # カードトークン
@@ -41,7 +41,6 @@ class OrdersController < ApplicationController
       @buy.save
       redirect_to root_path
     else
-      @item = Item.find(params[:item_id])
       render action: :index
     end
   end
