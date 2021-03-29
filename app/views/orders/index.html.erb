@@ -8,8 +8,11 @@
     </h1>
     <%# 購入内容の表示 %>
     <div class='buy-item-info'>
-      <%= image_tag @item.image, class: 'buy-item-img' %>
-      <div class='buy-item-right-content'>
+      <% @item.images.each do |image| %>
+        <%= image_tag image, class: 'buy-item-img' %>
+      <% end %>
+    </div>
+    <div class='buy-item-right-content'>
         <h2 class='buy-item-text'>
           <%= @item.name %>
         </h2>
@@ -18,7 +21,6 @@
           <p class='item-price-sub-text'><%= @item.delivery_fee.name %></p>
         </div>
       </div>
-    </div>
     <%# /購入内容の表示 %>
 
     <%# 支払額の表示 %>
