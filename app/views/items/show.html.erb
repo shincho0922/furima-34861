@@ -46,6 +46,14 @@
           <td class="detail-value"><%= @item.user.nickname %></td>
         </tr>
         <tr>
+          <th class="detail-item">タグ</th>
+          <td class="detail-value">
+          <% @item.tags.each do |tag| %>
+            <%= tag.tag_name %>
+          <% end %>
+          </td>
+        </tr>
+        <tr>
           <th class="detail-item">カテゴリー</th>
           <td class="detail-value"><%= @item.category.name %></td>
         </tr>

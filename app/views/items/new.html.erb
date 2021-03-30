@@ -5,7 +5,7 @@
   </header>
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
-    <%= form_with model:@item, local: true do |f| %>
+    <%= form_with model:@item, url:items_path, local: true do |f| %>
 
     <%= render 'shared/error_messages', model: @item %>
 
@@ -42,6 +42,11 @@
     <%# /商品名と商品説明 %>
 
     <%# 商品の詳細 %>
+    <div class="weight-bold-text">
+        タグ
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.text_area :tag_name, class:"items-text", id:"item-name", placeholder:"商品タグ（必須 40文字まで)", maxlength:"40" %>
     <div class="items-detail">
       <div class="weight-bold-text">商品の詳細</div>
       <div class="form">
