@@ -9,12 +9,13 @@ class ItemsController < ApplicationController
   end
 
   def new
-    @item = Item.new
+    @item = ItemTagRelation.new
   end
 
   def create
-    @item = Item.new(item_params)
-    if @item.save
+    @item = ItemTagRelation.new(item_params)
+    if @item.valid?
+      @item.save
       redirect_to root_path
     else
       render :new
@@ -28,7 +29,7 @@ class ItemsController < ApplicationController
   end
 
   def update
-    if @item.update(item_params)
+    if @item.update(item_update_params)
       redirect_to action: :index
     else
       render :edit
@@ -43,7 +44,11 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :description, :category_id, :status_id, :delivery_fee_id, :delivery_source_id, :delivery_date_id, :price, images:[]).merge(user_id: current_user.id)
+    params.require(:item_tag_relation).permit(:tag_name, :name, :description, :category_id, :status_id, :delivery_fee_id, :delivery_source_id, :delivery_date_id, :price, images: [] ).merge(user_id: current_user.id)
+  end
+
+  def item_update_params
+    params.require(:item).permit(:name, :description, :category_id, :status_id, :delivery_fee_id, :delivery_source_id, :delivery_date_id, :price, images: [] ).merge(user_id: current_user.id)
   end
 
   def check_user

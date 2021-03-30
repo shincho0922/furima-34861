@@ -8,16 +8,6 @@ ja:
         first_name_kana: 名字の振り仮名(カナ)
         last_name_kana: 名前の振り仮名(カナ)
         date_of_birth: 生年月日
-      item:
-        name: 商品名
-        images: 画像
-        description: 商品説明
-        category_id: カテゴリー
-        status_id: 商品の状態
-        delivery_fee_id: 配送料の負担
-        delivery_source_id: 発送元の地域
-        delivery_date_id: 発送までの日数 
-        price: 値段
   activemodel:
     attributes:
       buy:
@@ -27,3 +17,14 @@ ja:
         address: 番地 
         phone_number: 電話番号
         token: クレジットカード情報
+      item_tag_relation:
+        name: 商品名
+        images: 画像
+        description: 商品説明
+        category_id: カテゴリー
+        status_id: 商品の状態
+        delivery_fee_id: 配送料の負担
+        delivery_source_id: 発送元の地域
+        delivery_date_id: 発送までの日数 
+        tag_name: タグ
+        price: 値段
