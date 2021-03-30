@@ -9,7 +9,7 @@ class ItemsController < ApplicationController
   end
 
   def new
-    @item = Item.new
+    @item = ItemTagRelation.new
   end
 
   def create
@@ -41,10 +41,17 @@ class ItemsController < ApplicationController
     redirect_to root_path
   end
 
+  def search
+    return nil if params[:keyword] == ""
+    tag = Tag.where(['name LIKE ?', "%#{params[:keyword]}%"] )
+    render json:{ keyword: tag }
+  end
+
+
   private
 
   def item_params
-    params.require(:item).permit(:tag_name, :name, :description, :category_id, :status_id, :delivery_fee_id, :delivery_source_id, :delivery_date_id, :price, images: [] ).merge(user_id: current_user.id)
+    params.require(:item_tag_relation).permit(:tag_name, :name, :description, :category_id, :status_id, :delivery_fee_id, :delivery_source_id, :delivery_date_id, :price, images: [] ).merge(user_id: current_user.id)
   end
 
   def item_update_params
