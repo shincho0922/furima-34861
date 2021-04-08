@@ -18,7 +18,7 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one    :purchase
   has_many_attached :images
-  has_many :item_tags
+  has_many :item_tags, dependent: :destroy
   has_many :tags, through: :item_tags
 
   extend ActiveHash::Associations::ActiveRecordExtensions
